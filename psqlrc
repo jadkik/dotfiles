@@ -1,0 +1,25 @@
+\set HISTFILE ~/.psql_history-:USER-:DBNAME
+\set HISTCONTROL ignoredups
+
+\setenv PAGER less
+\setenv LESS -iMx4FSR
+
+-- \set PROMPT1 '%M:%[%033[1;31m%]%>%[%033[0m%] %n@%/%R%#%x '
+-- \set PROMPT2 '%M %n@%/%R %# '
+
+\set PROMPT1 '\033[33;1m%M(from '`hostname`').%/.%n.%> [%`date`]\033[0m\n> '
+\set PROMPT2 '.. %R > '
+
+\set AUTOCOMMIT on
+-- \set AUTOCOMMIT off
+
+-- \pset null '%033[1;31mnull%033[0m'
+\pset null '[null]'
+\timing
+
+-- \set show_slow_queries 'SELECT 
+--  (total_time / 1000 / 60) as total_minutes, 
+--    (total_time/calls) as average_time, query 
+--    FROM pg_stat_statements 
+--    ORDER BY 1 DESC 
+--    LIMIT 100;'

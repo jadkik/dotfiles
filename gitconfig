@@ -1,0 +1,35 @@
+[push]
+	default = simple
+	followTags = true
+[diff]
+	tool = meld
+[merge]
+	tool = meld
+[gui]
+	editor = geany
+[alias]
+	log1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
+	log2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+	logall1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	logall2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+# It's either that ...
+#	ls-untracked = !LS_GIT=$(mktemp) && LS_ALL=$(mktemp) && git ls-files > $LS_GIT && find . -path ./.git -prune -o -type d -true -o -print | cut -c -2 --complement > $LS_ALL && cat $LS_GIT $LS_ALL | sort | uniq -u
+# Or ...
+	ls-untracked = ls-files -o
+
+	ls-branches = !echo "Not Merged to :${1-HEAD}:" && git branch --no-merged "$1" && echo "Merged to :${1-HEAD}:" && git branch --merged "$1"
+	ls-branches-remote = !echo "Not Merged to :$1:" && git branch -r --no-merged "$1" && echo "Merged to :$1:" && git branch -r --merged "$1"
+	branch-cleanup = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -n 1 git branch -d; }; f"
+
+	panic = !tar cvf ../git_panic.tar *
+#	ls-todos = git grep -l TODO | xargs -n1 git blame | grep TODO  | sed \"s/\(.\+\)\s\+\([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\} [0-9]\{2\}:[0-9]\{2\}:[0-9]\{2\} +[0-9]\{4\}\)\s\+/\2 \1 /\" | sort -hr | grep --color=ALWAYS TODO | less -SR
+
+# To grep for "Foo" in history in a specific path "path_containing_change" and in a specific date range or commit range
+# git log -SFoo -- path_containing_change 
+# git log -SFoo --since=2009.1.1 --until=2010.1.1 -- path_containing_change
+# Either -S or -G can be used. See:
+# http://stackoverflow.com/a/12430097/1043456
+[core]
+	excludesfile = ~/global-gitignore
+[cola]
+	spellcheck = false
