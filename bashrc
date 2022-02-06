@@ -40,7 +40,8 @@ function viewjson {
 }
 
 alias ttysysall="ttysys 'vhm      s'"
-alias git-ls-todos='git grep -l TODO | xargs -n1 git blame -f | grep TODO  | sed "s/\(.\+\)\s\+\([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\} [0-9]\{2\}:[0-9]\{2\}:[0-9]\{2\} +[0-9]\{4\}\)\s\+/\2 \1 /" | sort -hr | grep --color=ALWAYS TODO | less -SR'
+alias git-ls-todos='git grep -i -l TODO | xargs -n1 git blame -f | grep -i TODO  | sed -E "s#^([0-9a-f]+)(.*)([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \+[0-9]{4})#\3 \1 \2#g" | sort -hr | grep -i --color=ALWAYS TODO | less -SR'
+alias nocheck-ssh='ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no"'
 
 # rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
